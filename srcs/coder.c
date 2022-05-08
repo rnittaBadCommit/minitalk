@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "minitalk.h"
 
 void encoder(char c, char *buf)
 {
@@ -29,10 +29,12 @@ char decoder(char *buf)
 	return (ret);
 }
 
-int main()
-{
-	char input[] = {0, 0, 0, 1, 0, 1, 1, 1};
-	printf("%hd\n", decoder(input));
-	encoder('z', input);
-	printf("%c\n", decoder(input));
-}
+/*
+   int main()
+   {
+   char input[] = {0, 0, 0, 1, 0, 1, 1, 1};
+   printf("%hd\n", decoder(input));
+   encoder('b', input);
+   printf("%c\n", decoder(input));
+   }
+   */
