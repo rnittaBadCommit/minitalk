@@ -16,6 +16,7 @@ void handler2(int signal, siginfo_t *info, void *ucontext)
 		t_flag.g_flag = 1;
 		t_flag.g_pid = info->si_pid;
 	}
+	usleep(5);
 }
 
 int main(void)

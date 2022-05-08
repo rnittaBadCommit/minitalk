@@ -11,6 +11,7 @@ void catch_ack(int signal, siginfo_t *info, void *ucontext)
 {
 	if (info->si_pid == t_flag.pid)
 		t_flag.g_ack_flag = 1;
+	usleep(5);
 }
 
 void catch_eob(int signal, siginfo_t *info, void *ucontext)
@@ -20,6 +21,7 @@ void catch_eob(int signal, siginfo_t *info, void *ucontext)
 		t_flag.g_eob_flag = 1;
 		t_flag.g_ack_flag = 1;
 	}
+	usleep(5);
 }
 
 int ft_atoi(char *s)
