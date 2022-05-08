@@ -1,5 +1,19 @@
 #include <stdio.h>
 
+void encoder(char c, char *buf)
+{
+	int i;
+
+	i = 0;
+	while (i < 8)
+	{
+		buf[7 - i] = c & 1;
+		c >>= 1;
+		i++;
+	}
+	return;
+}
+
 char decoder(char *buf)
 {
 	int i;
@@ -19,4 +33,6 @@ int main()
 {
 	char input[] = {0, 0, 0, 1, 0, 1, 1, 1};
 	printf("%hd\n", decoder(input));
+	encoder('z', input);
+	printf("%c\n", decoder(input));
 }
