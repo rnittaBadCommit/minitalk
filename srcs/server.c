@@ -46,9 +46,9 @@ int main(void)
 	int flag;
 	
 	init();
+	g_value_or_pid = INI_PID;
 	while (1)
 	{
-		g_value_or_pid = INI_PID;
 		while (g_value_or_pid == INI_PID)
 			pause();
 		pid = g_value_or_pid;
@@ -79,6 +79,8 @@ int main(void)
 			{
 				flag = NORMAL;
 				write(1, "\n", 1);
+				g_value_or_pid = INI_PID;
+				kill(pid, SIGEOB);
 				break;
 			}
 			write(1, &output, 1);
