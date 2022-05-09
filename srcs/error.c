@@ -2,7 +2,7 @@
 
 void	ft_error(int err)
 {
-	printf("Error\n");
+	printf("Error %d\n", err);
 	if (err == SIGACTION_ERROR)
 		printf("SIGACTION_ERROR");
 	if (err == SIGEMPTY_ERROR)
