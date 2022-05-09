@@ -6,13 +6,25 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:36:20 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/09 17:36:22 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:01:44 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
 volatile sig_atomic_t	g_value_or_pid;
+
+void	print_pid(int pid)
+{
+	char	c;
+
+	if (pid > 0)
+	{
+		print_pid(pid / 10);
+		c = pid % 10 + '0';
+		write(1, &c, 1);
+	}
+}
 
 void	handler2(int signal, siginfo_t *info, void *ucontext)
 {
@@ -37,7 +49,7 @@ void	init(int *flag)
 	*flag = NORMAL;
 	g_value_or_pid = INI_PID;
 	pid = getpid();
-	printf("%d\n", pid);
+	print_pid(pid);
 	if (sigemptyset(&sa.sa_mask) == -1)
 		ft_error(SIGEMPTY_ERROR);
 	sa.sa_sigaction = handler2;

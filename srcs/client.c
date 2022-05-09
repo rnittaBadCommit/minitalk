@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:35:48 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/09 17:35:57 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/09 18:09:55 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	catch_sig(int signal, siginfo_t *info, void *ucontext)
 	usleep(1);
 }
 
-int	ft_atoi(char *s)
+int	ft_atoi2(char *s)
 {
 	int	i;
 	int	ret;
@@ -97,7 +97,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 		return (BAD_ARGNUM);
-	pid = ft_atoi(argv[1]);
+	pid = ft_atoi2(argv[1]);
 	if (pid < 0 || pid > PID_MAX)
 		return (BAD_PID);
 	sig_init(pid);

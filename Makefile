@@ -13,7 +13,7 @@ all: $(NAME1) $(NAME2)
 	gcc $(CFLAG) -c $< -o $@
 
 $(NAME1): $(OBJS1)
-	gcc $(CFLAG) -o $(NAME1) $(OBJS1)
+	gcc $(CFLAG) -o $(NAME1) $(OBJS1) 
 
 $(NAME2): $(OBJS2)
 	gcc $(CFLAG) -o $(NAME2) $(OBJS2)
