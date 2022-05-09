@@ -64,8 +64,8 @@ void	send_8bit(int pid, char *buf)
 		{
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
-			else if (i < 7 && g_flag_or_pid== SIGACK)
-					break ;
+			else if (i < 7 && g_flag_or_pid == SIGACK)
+				break ;
 			else if (g_flag_or_pid == SIGEOB)
 				return ;
 			else if (g_flag_or_pid != pid * -1)

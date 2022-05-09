@@ -1,8 +1,8 @@
 #include "minitalk.h"
 
-void encoder(char c, char *buf)
+void	encoder(char c, char *buf)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < 8)
@@ -11,19 +11,18 @@ void encoder(char c, char *buf)
 		c >>= 1;
 		i++;
 	}
-	return;
 }
 
-char decoder(char *buf)
+char	decoder(char *buf)
 {
-	int i;
-	char ret;
+	int		i;
+	char	ret;
 
 	i = 0;
 	ret = 0;
 	while (i < 8)
 	{
-		ret = (ret<<1) + (buf[i] == 1);
+		ret = (ret << 1) + (buf[i] == 1);
 		i++;
 	}
 	return (ret);
