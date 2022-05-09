@@ -1,12 +1,9 @@
 #include "minitalk.h"
 
-int count;
 volatile sig_atomic_t g_value_or_pid;
 
 void handler2(int signal, siginfo_t *info, void *ucontext)
 {
-	count++;
-	printf("%d\n", count);
 	if ((signal != CODE0 && signal != CODE1) || info->si_pid == 0)
 		return;
 	if (ucontext)
@@ -58,7 +55,6 @@ int main(void)
 			i = 0;
 			while (i < 8)
 			{
-				printf("server: %d\n", i);
 				g_value_or_pid = pid * -1;
 				if (flag == NORMAL)
 					kill(pid, SIGACK);

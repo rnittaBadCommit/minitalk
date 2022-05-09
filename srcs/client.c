@@ -72,7 +72,6 @@ void send_8bit(int pid, char *buf)
 			kill(pid, CODE0);
 		while (1)
 		{
-			printf("client:  %d\n", i);
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
 			else if (i < 7)
@@ -111,7 +110,6 @@ int main(int argc, char **argv)
 	kill(pid, SIGACK);
 	while (g_flag_or_pid == pid * -1)
 		pause();
-	printf("client\n");
 	i = 0;
 	while (argv[2][i])
 	{
