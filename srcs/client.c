@@ -72,7 +72,7 @@ void send_8bit(int pid, char *buf)
 			kill(pid, CODE0);
 		while (1)
 		{
-			printf("client %d\n", i);
+			printf("client:  %d\n", i);
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
 			else if (i < 7)
