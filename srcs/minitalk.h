@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:37:27 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 01:48:53 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 02:40:14 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # define PAUSE_ERROR 3
 # define EOB_ERROR 4
 # define EOB_ERROR2 5
+# define INVALID_PID 6
 
 # define BAD_ARGNUM 1
 # define BAD_PID 2

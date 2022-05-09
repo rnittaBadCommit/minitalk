@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:35:48 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 01:51:40 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 02:41:17 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,9 @@ void	sig_init(int pid)
 		ft_error(SIGACTION_ERROR);
 	g_flag_or_pid = pid * -1;
 	kill(pid, SIGACK);
-	while (g_flag_or_pid == pid * -1)
-		usleep(1);
+	usleep(100);
+	if (g_flag_or_pid == pid * -1)
+		ft_error(INVALID_PID);
 }
 
 void	send_8bit(int pid, char *buf)
@@ -77,7 +78,7 @@ void	send_8bit(int pid, char *buf)
 			usleep(1);
 		if (i < 7 && g_flag_or_pid == SIGACK)
 			i++;
-		else if (i == 8 && g_flag_or_pid == SIGEOB)
+		else if (i == 7 && g_flag_or_pid == SIGEOB)
 			return ;
 		else
 			ft_error(EOB_ERROR2);
