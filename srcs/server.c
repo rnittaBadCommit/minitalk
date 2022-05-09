@@ -14,7 +14,7 @@ void handler2(int signal, siginfo_t *info, void *ucontext)
 		g_value_or_pid = signal;
 	else
 		g_value_or_pid = FROM_INVALID_PID;
-	usleep(50);
+	usleep(1);
 }
 
 void init(void)

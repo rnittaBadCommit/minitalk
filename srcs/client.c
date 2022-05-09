@@ -21,7 +21,7 @@ void catch_eob(int signal, siginfo_t *info, void *ucontext)
 		ucontext = NULL;
 	if (signal == SIGEOB)
 		g_flag_or_pid = SIGEOB;
-	usleep(50);
+	usleep(1);
 }
 
 int ft_atoi(char *s)
