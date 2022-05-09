@@ -52,10 +52,10 @@ int main(void)
 		while (g_value_or_pid == INI_PID)
 			pause();
 		pid = g_value_or_pid;
-		i = 0;
 		flag = NORMAL;
 		while (1)
 		{
+			i = 0;
 			while (i < 8)
 			{
 				printf("server: %d\n", i);
