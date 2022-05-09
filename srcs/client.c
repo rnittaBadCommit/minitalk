@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:35:48 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/09 18:09:55 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:38:20 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	sig_init(int pid)
 	g_flag_or_pid = pid * -1;
 	kill(pid, SIGACK);
 	while (g_flag_or_pid == pid * -1)
-		pause();
+		if (pause() == -1)
+			ft_error(PAUSE_ERROR);
 }
 
 void	send_8bit(int pid, char *buf)
