@@ -107,9 +107,9 @@ int main(int argc, char **argv)
 	if (pid < 0)
 		return (BAD_PID);
 	sig_init();
-	g_flag_or_pid = 0;
+	g_flag_or_pid = pid * -1;
 	kill(pid, SIGACK);
-	while (!g_flag_or_pid)
+	while (g_flag_or_pid == pid * -1)
 		pause();
 	printf("client\n");
 	i = 0;
