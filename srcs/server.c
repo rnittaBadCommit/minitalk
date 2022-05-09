@@ -69,10 +69,10 @@ int	main(void)
 	init();
 	while (1)
 	{
-		printf("server_first: %d\n", g_value_or_pid);
 		while (g_value_or_pid == INI_PID)
 			pause();
 		pid = g_value_or_pid;
+		flag = NORMAL;
 		while (1)
 		{
 			recieve_8bit(pid, buf, &flag);
