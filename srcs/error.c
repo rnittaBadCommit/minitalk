@@ -1,6 +1,6 @@
 #include "minitalk.h"
 
-void ft_error(int err)
+void	ft_error(int err)
 {
 	printf("Error\n");
 	if (err == SIGACTION_ERROR)

@@ -1,33 +1,22 @@
 #include "minitalk.h"
 
-volatile sig_atomic_t g_flag_or_pid;
+volatile sig_atomic_t	g_flag_or_pid;
 
-void catch_ack(int signal, siginfo_t *info, void *ucontext)
+void	catch_sig(int signal, siginfo_t *info, void *ucontext)
 {
 	if (info->si_pid != g_flag_or_pid * -1)
-		return;
+		return ;
 	if (ucontext)
 		ucontext = NULL;
-	if (signal == SIGACK)
-		g_flag_or_pid = SIGACK;
+	if (signal == SIGACK || signal == SIGEOB)
+		g_flag_or_pid = signal;
 	usleep(1);
 }
 
-void catch_eob(int signal, siginfo_t *info, void *ucontext)
+int	ft_atoi(char *s)
 {
-	if (info->si_pid != g_flag_or_pid * -1)
-		return;
-	if (ucontext)
-		ucontext = NULL;
-	if (signal == SIGEOB)
-		g_flag_or_pid = SIGEOB;
-	usleep(1);
-}
-
-int ft_atoi(char *s)
-{
-	int i;
-	int ret;
+	int	i;
+	int	ret;
 
 	i = 0;
 	ret = 0;
@@ -43,27 +32,28 @@ int ft_atoi(char *s)
 	return (ret);
 }
 
-void sig_init(void)
+void	sig_init(int pid)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	if (sigemptyset(&sa.sa_mask) == -1)
 		ft_error(SIGEMPTY_ERROR);
-	sa.sa_sigaction = catch_ack;
+	sa.sa_sigaction = catch_sig;
 	sa.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGACK, &sa, NULL) == -1)
 		ft_error(SIGACTION_ERROR);
-	sa.sa_sigaction = catch_eob;
-	if (sigaction(SIGEOB, &sa, NULL) == -1)
-		ft_error(SIGACTION_ERROR);
+	g_flag_or_pid = pid * -1;
+	kill(pid, SIGACK);
+	while (g_flag_or_pid == pid * -1)
+		pause();
 }
 
-void send_8bit(int pid, char *buf)
+void	send_8bit(int pid, char *buf)
 {
-	int i;
+	int	i;
 
-	i = 0;
-	while (i < 8)
+	i = -1;
+	while (++i < 8)
 	{
 		g_flag_or_pid = pid * -1;
 		if (buf[i])
@@ -75,41 +65,30 @@ void send_8bit(int pid, char *buf)
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
 			else if (i < 7)
-			{
-			 	if (g_flag_or_pid == SIGACK)
-				 	break;
-				else if (g_flag_or_pid == pid * -1)
-					continue;
-				else
+				if (g_flag_or_pid == SIGACK)
+					break ;
+				else if (g_flag_or_pid != pid * -1)
 					ft_error(EOB_ERROR);
-			}
 			else if (g_flag_or_pid == SIGEOB)
-				return;
-			else if (g_flag_or_pid == pid * -1)
-				continue;
-			else
+				return ;
+			else if (g_flag_or_pid != pid * -1)
 				ft_error(EOB_ERROR2);
 		}
-		i++;
 	}
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int i;
-	char buf[8];
-	int pid;
+	int		i;
+	char	buf[8];
+	int		pid;
 
 	if (argc != 3)
 		return (BAD_ARGNUM);
 	pid = ft_atoi(argv[1]);
-	if (pid < 0)
+	if (pid < 0 || pid > PID_MAX)
 		return (BAD_PID);
-	sig_init();
-	g_flag_or_pid = pid * -1;
-	kill(pid, SIGACK);
-	while (g_flag_or_pid == pid * -1)
-		pause();
+	sig_init(pid);
 	i = 0;
 	while (argv[2][i])
 	{
