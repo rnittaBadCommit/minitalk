@@ -6,19 +6,18 @@ struct s_flag {
 	int g_pid;
 } t_flag;
 
+volatile sig_atomic_t g_value_or_pid;
+
 void handler2(int signal, siginfo_t *info, void *ucontext)
 {
 	if (ucontext)
 		;
-	if (t_flag.g_pid == INI_PID)
-		t_flag.g_pid = info->si_pid;
-	if (t_flag.g_pid == info->si_pid)
-	{
-		t_flag.g_value = (signal == CODE1);
-		t_flag.g_flag = 1;
-		t_flag.g_pid = info->si_pid;
-	}
-	usleep(1);
+	if (g_value_or_pid == INI_PID)
+		g_value_or_pid = info->si_pid;	
+	else if (g_value_or_pid == info->si_pid)
+		g_value_or_pid = signal;
+	else
+		g_value_or_pid = FROM_INVALID_PID;
 }
 
 int main(void)
@@ -46,8 +45,9 @@ int main(void)
 		i = 0;
 		while (i < 8)
 		{
-			while (!t_flag.g_flag)
+			while (!g_value_or_pid)
 				;
+			if (g_value_or_pid == 
 			t_flag.g_flag = 0;
 			buf[i] = t_flag.g_value;
 			i++;
