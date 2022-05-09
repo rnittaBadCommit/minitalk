@@ -89,7 +89,7 @@ void send_8bit(int pid, char *buf)
 			else if (g_flag_or_pid == pid * -1)
 				continue;
 			else
-				ft_error(EOB_ERROR);
+				ft_error(EOB_ERROR2);
 		}
 		i++;
 	}

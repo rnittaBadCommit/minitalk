@@ -63,7 +63,10 @@ int main(void)
 				if (flag == NORMAL)
 					kill(pid, SIGACK);
 				else if (flag == EOB)
+				{
+					flag = NORMAL;
 					kill(pid, SIGEOB);
+				}
 				while (g_value_or_pid == pid * -1)
 					;
 				if (g_value_or_pid == FROM_INVALID_PID)
