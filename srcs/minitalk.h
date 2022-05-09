@@ -15,10 +15,21 @@
 #define BAD_ARGNUM 1
 #define BAD_PID 2
 
+//g_value_or_pid
+#define EMPTY -3
+#define FROM_INVALID_PID -2
+
+//signal for kill
 #define CODE0 SIGUSR1
 #define CODE1 SIGUSR2
 #define SIGACK SIGUSR1
 #define SIGEOB SIGUSR2
+
+//flag
+#define UNCONNECTED 0
+#define NORMAL 1
+#define FIRST 2
+#define EOB 3
 
 #define INI_PID -1
 

@@ -1,35 +1,30 @@
 #include "minitalk.h"
 
-struct s_flag {
-	int g_flag;
-	char g_value;
-	int g_pid;
-} t_flag;
-
+int count;
 volatile sig_atomic_t g_value_or_pid;
 
 void handler2(int signal, siginfo_t *info, void *ucontext)
 {
+	count++;
+	printf("%d\n", count);
+	if ((signal != CODE0 && signal != CODE1) || info->si_pid == 0)
+		return;
 	if (ucontext)
-		;
+		ucontext = NULL;
 	if (g_value_or_pid == INI_PID)
-		g_value_or_pid = info->si_pid;	
-	else if (g_value_or_pid == info->si_pid)
+		g_value_or_pid = info->si_pid;
+	else if (g_value_or_pid * -1 == info->si_pid)
 		g_value_or_pid = signal;
 	else
 		g_value_or_pid = FROM_INVALID_PID;
+	usleep(1);
 }
 
-int main(void)
+void init(void)
 {
 	pid_t pid;
 	struct sigaction sa;
-	char buf[8];
-	int i;
-	char output;
 
-	t_flag.g_flag = 0;
-	t_flag.g_pid = INI_PID;
 	pid = getpid();
 	printf("%d\n", pid);
 	if (sigemptyset(&sa.sa_mask) == -1)
@@ -40,30 +35,52 @@ int main(void)
 		ft_error(SIGACTION_ERROR);
 	if (sigaction(SIGUSR2, &sa, NULL) == -1)
 		ft_error(SIGACTION_ERROR);
+}
+
+int main(void)
+{
+	pid_t pid;
+	char buf[8];
+	int i;
+	char output;
+	int flag;
+	
+	init();
 	while (1)
 	{
+		g_value_or_pid = INI_PID;
+		while (g_value_or_pid == INI_PID)
+			pause();
+		pid = g_value_or_pid;
 		i = 0;
-		while (i < 8)
+		flag = NORMAL;
+		while (1)
 		{
-			while (!g_value_or_pid)
-				;
-			if (g_value_or_pid == 
-			t_flag.g_flag = 0;
-			buf[i] = t_flag.g_value;
-			i++;
-			if (i < 7)
-				kill(t_flag.g_pid, SIGACK);
-			else
-				kill(t_flag.g_pid, SIGEOB);
-		}
-		output = decoder(buf);
-		if (output == '\0')
-		{
-			t_flag.g_pid = INI_PID;
-			write(1, "\n", 1);
-		}
-		else
+			while (i < 8)
+			{
+				printf("%d\n", i);
+				g_value_or_pid = pid * -1;
+				if (flag == NORMAL)
+					kill(pid, SIGACK);
+				else if (flag == EOB)
+					kill(pid, SIGEOB);
+				while (g_value_or_pid == pid * -1)
+					;
+				if (g_value_or_pid == FROM_INVALID_PID)
+					ft_error(FROM_INVALID_PID);
+				buf[i] = (g_value_or_pid == CODE1);
+				i++;
+			}
+			output = decoder(buf);
+			if (output == '\0')
+			{
+				flag = NORMAL;
+				write(1, "\n", 1);
+				break;
+			}
 			write(1, &output, 1);
+			flag = EOB;
+		}
 	}
 	printf("\nEND!\n");
 }
