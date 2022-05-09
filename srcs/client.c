@@ -21,7 +21,7 @@ void catch_eob(int signal, siginfo_t *info, void *ucontext)
 		ucontext = NULL;
 	if (signal == SIGEOB)
 		g_flag_or_pid = SIGEOB;
-	usleep(1);
+	usleep(50);
 }
 
 int ft_atoi(char *s)
@@ -76,12 +76,14 @@ void send_8bit(int pid, char *buf)
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
 			else if (i < 7)
+			{
 			 	if (g_flag_or_pid == SIGACK)
 				 	break;
 				else if (g_flag_or_pid == pid * -1)
 					continue;
 				else
 					ft_error(EOB_ERROR);
+			}
 			else if (g_flag_or_pid == SIGEOB)
 				return;
 			else if (g_flag_or_pid == pid * -1)
