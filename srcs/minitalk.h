@@ -11,6 +11,7 @@
 #define SIGEMPTY_ERROR 2
 #define PAUSE_ERROR 3
 #define EOB_ERROR 4
+#define EOB_ERROR2 5
 
 #define BAD_ARGNUM 1
 #define BAD_PID 2
