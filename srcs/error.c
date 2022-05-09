@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:36:00 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 02:52:52 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 02:54:49 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	ft_error(int err)
 		ft_printf("PAUSE_ERROR\n");
 	else if (err == EOB_ERROR)
 		ft_printf("BIT_LOST\n");
+	else if (err == EOB_ERROR2)
+		ft_printf("BIT_LOST\n");
 	else if (err == INVALID_PID)
-		ft_printf("INVALID_PID");
+		ft_printf("INVALID_PID\n");
 	exit(-1);
 }

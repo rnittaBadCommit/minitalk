@@ -6,14 +6,13 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:37:27 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 02:40:14 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 02:59:50 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINITALK_H
 # define MINITALK_H
 
-# include <stdio.h>
 # include <stdlib.h>
 # include <signal.h>
 # include <sys/types.h>
