@@ -42,6 +42,8 @@ void	sig_init(int pid)
 	sa.sa_flags = SA_SIGINFO;
 	if (sigaction(SIGACK, &sa, NULL) == -1)
 		ft_error(SIGACTION_ERROR);
+	if (sigaction(SIGEOB, &sa, NULL) == -1)
+		ft_error(SIGACTION_ERROR);
 	g_flag_or_pid = pid * -1;
 	kill(pid, SIGACK);
 	while (g_flag_or_pid == pid * -1)
