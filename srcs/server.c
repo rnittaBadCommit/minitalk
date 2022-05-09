@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:36:20 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 01:01:44 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:57:51 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	handler2(int signal, siginfo_t *info, void *ucontext)
 		g_value_or_pid = signal;
 	else
 		g_value_or_pid = FROM_INVALID_PID;
-	usleep(1);
 }
 
 void	init(int *flag)
@@ -60,7 +59,7 @@ void	init(int *flag)
 		ft_error(SIGACTION_ERROR);
 }
 
-void	recieve_8bit(int pid, char *buf, int *flag)
+int	recieve_8bit(int pid, char *buf, int *flag)
 {
 	int	i;
 
@@ -76,12 +75,15 @@ void	recieve_8bit(int pid, char *buf, int *flag)
 			kill(pid, SIGEOB);
 		}
 		while (g_value_or_pid == pid * -1)
-			;
+			usleep(1);
 		if (g_value_or_pid == FROM_INVALID_PID)
 			ft_error(FROM_INVALID_PID);
+		else if (g_value_or_pid != CODE0 && g_value_or_pid != CODE1)
+			ft_error(INVALID_SIGNAL);
 		buf[i] = (g_value_or_pid == CODE1);
 		i++;
 	}
+	return (1);
 }
 
 int	main(void)
@@ -94,11 +96,11 @@ int	main(void)
 	while (1)
 	{
 		while (g_value_or_pid == INI_PID)
-			pause();
+			if (pause() != -1)
+				ft_error(PAUSE_ERROR);
 		pid = g_value_or_pid;
-		while (1)
+		while (recieve_8bit(pid, buf, &flag))
 		{
-			recieve_8bit(pid, buf, &flag);
 			buf[0] = decoder(buf);
 			if (buf[0] == '\0')
 			{

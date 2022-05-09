@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:35:48 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 01:38:20 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:51:40 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	catch_sig(int signal, siginfo_t *info, void *ucontext)
 		ucontext = NULL;
 	if (signal == SIGACK || signal == SIGEOB)
 		g_flag_or_pid = signal;
-	usleep(1);
 }
 
 int	ft_atoi2(char *s)
@@ -59,8 +58,7 @@ void	sig_init(int pid)
 	g_flag_or_pid = pid * -1;
 	kill(pid, SIGACK);
 	while (g_flag_or_pid == pid * -1)
-		if (pause() == -1)
-			ft_error(PAUSE_ERROR);
+		usleep(1);
 }
 
 void	send_8bit(int pid, char *buf)
@@ -75,18 +73,14 @@ void	send_8bit(int pid, char *buf)
 			kill(pid, CODE1);
 		else
 			kill(pid, CODE0);
-		while (1)
-		{
-			if (pause() != -1)
-				ft_error(PAUSE_ERROR);
-			else if (i < 7 && g_flag_or_pid == SIGACK)
-				break ;
-			else if (g_flag_or_pid == SIGEOB)
-				return ;
-			else if (g_flag_or_pid != pid * -1)
-				ft_error(EOB_ERROR2);
-		}
-		i++;
+		while (g_flag_or_pid == pid * -1)
+			usleep(1);
+		if (i < 7 && g_flag_or_pid == SIGACK)
+			i++;
+		else if (i == 8 && g_flag_or_pid == SIGEOB)
+			return ;
+		else
+			ft_error(EOB_ERROR2);
 	}
 }
 
@@ -96,6 +90,7 @@ int	main(int argc, char **argv)
 	char	buf[8];
 	int		pid;
 
+	usleep(50);
 	if (argc != 3)
 		return (BAD_ARGNUM);
 	pid = ft_atoi2(argv[1]);

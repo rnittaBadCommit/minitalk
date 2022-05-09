@@ -6,7 +6,7 @@
 /*   By: rnitta <rnitta@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 17:37:27 by rnitta            #+#    #+#             */
-/*   Updated: 2022/05/10 00:19:24 by rnitta           ###   ########.fr       */
+/*   Updated: 2022/05/10 01:48:53 by rnitta           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 //g_value_or_pid
 # define EMPTY -3
 # define FROM_INVALID_PID -2
+# define INVALID_SIGNAL -3
 
 //signal for kill
 # define CODE0 SIGUSR1
