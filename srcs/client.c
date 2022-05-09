@@ -55,7 +55,7 @@ void	send_8bit(int pid, char *buf)
 	int	i;
 
 	i = 0;
-	while (++i < 8)
+	while (i < 8)
 	{
 		g_flag_or_pid = pid * -1;
 		if (buf[i])
