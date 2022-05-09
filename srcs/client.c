@@ -9,7 +9,7 @@ void catch_ack(int signal, siginfo_t *info, void *ucontext)
 	if (ucontext)
 		ucontext = NULL;
 	if (signal == SIGACK)
-		g_flag_or_pid = 1;
+		g_flag_or_pid = SIGACK;
 	usleep(1);
 }
 
@@ -20,7 +20,7 @@ void catch_eob(int signal, siginfo_t *info, void *ucontext)
 	if (ucontext)
 		ucontext = NULL;
 	if (signal == SIGEOB)
-		g_flag_or_pid = 1;
+		g_flag_or_pid = SIGEOB;
 	usleep(1);
 }
 

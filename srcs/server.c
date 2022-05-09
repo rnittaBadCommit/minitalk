@@ -17,7 +17,7 @@ void handler2(int signal, siginfo_t *info, void *ucontext)
 		g_value_or_pid = signal;
 	else
 		g_value_or_pid = FROM_INVALID_PID;
-	usleep(1);
+	usleep(50);
 }
 
 void init(void)
@@ -58,7 +58,7 @@ int main(void)
 		{
 			while (i < 8)
 			{
-				printf("%d\n", i);
+				printf("server: %d\n", i);
 				g_value_or_pid = pid * -1;
 				if (flag == NORMAL)
 					kill(pid, SIGACK);
