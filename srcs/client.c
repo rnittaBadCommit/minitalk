@@ -4,7 +4,7 @@ volatile sig_atomic_t g_flag_or_pid;
 
 void catch_ack(int signal, siginfo_t *info, void *ucontext)
 {
-	if (info->si_pid == g_flag_or_pid * -1)
+	if (info->si_pid != g_flag_or_pid * -1)
 		return;
 	if (ucontext)
 		ucontext = NULL;
@@ -15,7 +15,7 @@ void catch_ack(int signal, siginfo_t *info, void *ucontext)
 
 void catch_eob(int signal, siginfo_t *info, void *ucontext)
 {
-	if (info->si_pid == g_flag_or_pid * -1)
+	if (info->si_pid != g_flag_or_pid * -1)
 		return;
 	if (ucontext)
 		ucontext = NULL;
