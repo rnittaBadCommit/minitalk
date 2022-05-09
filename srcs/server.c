@@ -17,11 +17,12 @@ void	handler2(int signal, siginfo_t *info, void *ucontext)
 	usleep(1);
 }
 
-void	init(void)
+void	init(int *flag)
 {
 	pid_t				pid;
 	struct sigaction	sa;
 
+	*flag = NORMAL;
 	g_value_or_pid = INI_PID;
 	pid = getpid();
 	printf("%d\n", pid);
@@ -42,7 +43,6 @@ void	recieve_8bit(int pid, char *buf, int *flag)
 	i = 0;
 	while (i < 8)
 	{
-		printf("server: %d\n", i);
 		g_value_or_pid = pid * -1;
 		if (*flag == NORMAL)
 			kill(pid, SIGACK);
@@ -66,13 +66,12 @@ int	main(void)
 	char	buf[8];
 	int		flag;
 
-	init();
+	init(&flag);
 	while (1)
 	{
 		while (g_value_or_pid == INI_PID)
 			pause();
 		pid = g_value_or_pid;
-		flag = NORMAL;
 		while (1)
 		{
 			recieve_8bit(pid, buf, &flag);
