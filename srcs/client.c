@@ -52,7 +52,7 @@ void	send_8bit(int pid, char *buf)
 {
 	int	i;
 
-	i = -1;
+	i = 0;
 	while (++i < 8)
 	{
 		g_flag_or_pid = pid * -1;
@@ -71,6 +71,7 @@ void	send_8bit(int pid, char *buf)
 			else if (g_flag_or_pid != pid * -1)
 				ft_error(EOB_ERROR2);
 		}
+		i++;
 	}
 }
 

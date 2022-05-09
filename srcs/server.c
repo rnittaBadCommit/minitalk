@@ -42,6 +42,7 @@ void	recieve_8bit(int pid, char *buf, int *flag)
 	i = 0;
 	while (i < 8)
 	{
+		printf("server: %d\n", i);
 		g_value_or_pid = pid * -1;
 		if (*flag == NORMAL)
 			kill(pid, SIGACK);
@@ -68,6 +69,7 @@ int	main(void)
 	init();
 	while (1)
 	{
+		printf("server_first: %d\n", g_value_or_pid);
 		while (g_value_or_pid == INI_PID)
 			pause();
 		pid = g_value_or_pid;
