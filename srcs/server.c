@@ -8,6 +8,8 @@ struct s_flag {
 
 void handler2(int signal, siginfo_t *info, void *ucontext)
 {
+	if (ucontext)
+		;
 	if (t_flag.g_pid == INI_PID)
 		t_flag.g_pid = info->si_pid;
 	if (t_flag.g_pid == info->si_pid)
@@ -16,7 +18,7 @@ void handler2(int signal, siginfo_t *info, void *ucontext)
 		t_flag.g_flag = 1;
 		t_flag.g_pid = info->si_pid;
 	}
-	usleep(5);
+	usleep(1);
 }
 
 int main(void)
@@ -25,7 +27,6 @@ int main(void)
 	struct sigaction sa;
 	char buf[8];
 	int i;
-	int j;
 	char output;
 
 	t_flag.g_flag = 0;

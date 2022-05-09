@@ -9,19 +9,21 @@ struct s_flag
 
 void catch_ack(int signal, siginfo_t *info, void *ucontext)
 {
+	if (signal || ucontext)
+		;
 	if (info->si_pid == t_flag.pid)
 		t_flag.g_ack_flag = 1;
-	usleep(5);
 }
 
 void catch_eob(int signal, siginfo_t *info, void *ucontext)
 {
+	if (signal || ucontext)
+		;
 	if (info->si_pid == t_flag.pid)
 	{
 		t_flag.g_eob_flag = 1;
 		t_flag.g_ack_flag = 1;
 	}
-	usleep(5);
 }
 
 int ft_atoi(char *s)
@@ -66,12 +68,14 @@ void send_8bit(int pid, char *buf)
 	{
 		t_flag.g_ack_flag = 0;
 		if (buf[i])
-			kill(t_flag.pid, CODE1);
+			kill(pid, CODE1);
 		else
-			kill(t_flag.pid, CODE0);
-		while (!t_flag.g_ack_flag)
+			kill(pid, CODE0);
+		while (1)
 			if (pause() != -1)
 				ft_error(PAUSE_ERROR);
+			else if (t_flag.g_ack_flag)
+				break;
 		i++;
 	}
 	if (!t_flag.g_eob_flag)
